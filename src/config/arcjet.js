@@ -14,6 +14,7 @@ const aj = arcjet({
       allow: [
         "CATEGORY:SEARCH_ENGINE",  
         "CATEGORY:PREVIEW",  
+        "CATEGORY:HTTP_CLIENT",
       ],
     }),
     slidingWindow({
