@@ -4,17 +4,18 @@
   "description": "",
   "main": "index.js",
   "imports": {
-    "#config/*": "./src/config/*  ",
-    "#controllers/*": "./src/controllers/*  ",
-    "#middleware/*": "./src/middleware/*  ",
-    "#models/*": "./src/models/*  ",
-    "#services/*": "./src/services/*  ",
-    "#utils/*": "./src/utils/*  ",
-    "#validations/*": "./src/validations/*  ",
-    "#routes/*": "./src/routes/*  "
+    "#src/*": "./src/*",
+    "#config/*": "./src/config/*",
+    "#controllers/*": "./src/controllers/*",
+    "#middleware/*": "./src/middleware/*",
+    "#models/*": "./src/models/*",
+    "#services/*": "./src/services/*",
+    "#utils/*": "./src/utils/*",
+    "#validations/*": "./src/validations/*",
+    "#routes/*": "./src/routes/*"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
     "lint": "eslint .",
@@ -57,11 +58,14 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "drizzle-kit": "^0.31.10",
+    "cross-env": "^10.1.0",
+    "drizzle-kit": "^0.18.1",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.3.0",
     "jsx": "^0.9.89",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "supertest": "^7.2.2"
   }
 }
