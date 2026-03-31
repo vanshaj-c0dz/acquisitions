@@ -1,4 +1,4 @@
-# Acquisitions Application
+# --Acquisitions Application--
 
 A Node.js/Express application with Neon Database integration, containerized for both development and production environments.
 
