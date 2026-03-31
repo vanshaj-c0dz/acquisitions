@@ -1,29 +1,24 @@
-import arcjet, { shield, detectBot, tokenBucket , slidingWindow } from "@arcjet/node";
-
- 
+import arcjet, { shield, detectBot, slidingWindow } from '@arcjet/node';
 
 const aj = arcjet({
-   
   key: process.env.ARCJET_KEY,
   rules: [
-   
-    shield({ mode: "LIVE" }),
-    
+    shield({ mode: 'LIVE' }),
+
     detectBot({
-      mode: "LIVE",  
+      mode: 'LIVE',
       allow: [
-        "CATEGORY:SEARCH_ENGINE",  
-        "CATEGORY:PREVIEW",  
-        "CATEGORY:HTTP_CLIENT",
+        'CATEGORY:SEARCH_ENGINE',
+        'CATEGORY:PREVIEW',
+        'CATEGORY:HTTP_CLIENT',
       ],
     }),
     slidingWindow({
-        mode: 'LIVE',
-        interval: '2s',
-        max: 5
-
-    })
+      mode: 'LIVE',
+      interval: '2s',
+      max: 5,
+    }),
   ],
 });
 
-export default aj
+export default aj;

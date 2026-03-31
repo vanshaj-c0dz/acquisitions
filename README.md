@@ -14,10 +14,12 @@ A Node.js/Express application with Neon Database integration, containerized for 
 ## Prerequisites
 
 ### Required
+
 - Docker and Docker Compose
 - Neon account and project (https://neon.tech)
 
 ### For Development
+
 - Node.js 20+ (for local development without Docker)
 - Git (for branch-based development)
 
@@ -33,11 +35,13 @@ cd acquisitions
 ### 2. Set up Development Environment
 
 Copy the development environment template:
+
 ```bash
 cp .env.development .env
 ```
 
 Edit `.env` and add your Neon credentials:
+
 ```bash
 # Required: Get these from your Neon project dashboard
 NEON_API_KEY=your_neon_api_key_here
@@ -59,6 +63,7 @@ docker-compose -f docker-compose.dev.yml up -d --build
 ```
 
 This will:
+
 - Start a **Neon Local proxy** that creates ephemeral database branches
 - Start your application connected to the local proxy
 - Automatically create a fresh database branch for each container restart
@@ -72,6 +77,7 @@ This will:
 ### 5. Database Migrations
 
 Run database migrations inside the container:
+
 ```bash
 # Run migrations
 docker-compose -f docker-compose.dev.yml exec app npm run db:migrate
@@ -88,11 +94,13 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 ### 1. Environment Configuration
 
 Create production environment file:
+
 ```bash
 cp .env.production .env.prod
 ```
 
 Edit `.env.prod` with your production values:
+
 ```bash
 NODE_ENV=production
 PORT=3000
@@ -138,11 +146,13 @@ docker-compose -f docker-compose.prod.yml up -d
 ## Database Management
 
 ### Development (Neon Local)
+
 - **Ephemeral branches**: Fresh database on each restart
 - **No manual cleanup**: Branches auto-delete on container stop
 - **Local connection**: `postgres://neon:npg@neon-local:5432/acquisitions`
 
 ### Production (Neon Cloud)
+
 - **Persistent database**: Production Neon database
 - **Connection pooling**: Handled by Neon Cloud
 - **Backups**: Managed by Neon
@@ -156,34 +166,36 @@ neon-local:
   # ... existing config
   environment:
     # ... existing env vars
-    DELETE_BRANCH: false  # Keep branches after container stops
+    DELETE_BRANCH: false # Keep branches after container stops
   volumes:
-    - ./.neon_local/:/tmp/.neon_local              # Branch metadata
-    - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent     # Git integration
+    - ./.neon_local/:/tmp/.neon_local # Branch metadata
+    - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent # Git integration
 ```
 
 ## Environment Configuration
 
 ### Development vs Production
 
-| Feature | Development | Production |
-|---------|-------------|------------|
-| Database | Neon Local (ephemeral) | Neon Cloud |
-| Connection | `neon-local:5432` | Direct to Neon |
-| Branches | Auto-created/deleted | Fixed production DB |
-| SSL | Disabled (local) | Required |
-| Logs | Debug level | Info level |
-| Hot Reload | Enabled | Disabled |
+| Feature    | Development            | Production          |
+| ---------- | ---------------------- | ------------------- |
+| Database   | Neon Local (ephemeral) | Neon Cloud          |
+| Connection | `neon-local:5432`      | Direct to Neon      |
+| Branches   | Auto-created/deleted   | Fixed production DB |
+| SSL        | Disabled (local)       | Required            |
+| Logs       | Debug level            | Info level          |
+| Hot Reload | Enabled                | Disabled            |
 
 ### Environment Variables
 
 #### Required for Development
+
 ```bash
 NEON_API_KEY=<your-api-key>
 NEON_PROJECT_ID=<your-project-id>
 ```
 
 #### Required for Production
+
 ```bash
 DATABASE_URL=<neon-cloud-connection-string>
 JWT_SECRET=<secure-secret>
@@ -191,6 +203,7 @@ COOKIE_SECRET=<secure-secret>
 ```
 
 #### Optional
+
 ```bash
 PORT=3000
 NODE_ENV=development|production
@@ -202,6 +215,7 @@ API_RATE_LIMIT=100
 ## Scripts
 
 ### Development
+
 ```bash
 # Start development environment
 npm run dev:docker
@@ -220,6 +234,7 @@ npm run format         # Format code
 ```
 
 ### Production
+
 ```bash
 # Build production image
 docker build -t acquisitions:latest .
@@ -233,17 +248,20 @@ docker run -p 3000:3000 --env-file .env.prod acquisitions:latest
 ### Common Issues
 
 #### "Connection to Neon Local failed"
+
 1. Ensure Neon Local container is healthy: `docker-compose -f docker-compose.dev.yml ps`
 2. Check Neon credentials in `.env`
 3. Verify network connectivity: `docker-compose -f docker-compose.dev.yml logs neon-local`
 
 #### "Database schema out of sync"
+
 ```bash
 # Run pending migrations
 docker-compose -f docker-compose.dev.yml exec app npm run db:migrate
 ```
 
 #### "Permission denied" errors
+
 ```bash
 # Reset container permissions
 docker-compose -f docker-compose.dev.yml down
@@ -276,11 +294,13 @@ curl http://localhost:3000/health
 ## Security Notes
 
 ### Development
+
 - Uses ephemeral branches (safe for experimentation)
 - Neon Local credentials are for proxy only
 - No production data exposure
 
 ### Production
+
 - Always use HTTPS in production
 - Rotate secrets regularly
 - Use environment variables for sensitive data
@@ -296,4 +316,4 @@ curl http://localhost:3000/health
 
 ---
 
-*This setup provides isolated development environments with Neon Local while maintaining production-ready deployment patterns with Neon Cloud.*
+_This setup provides isolated development environments with Neon Local while maintaining production-ready deployment patterns with Neon Cloud._
